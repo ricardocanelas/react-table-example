@@ -43,7 +43,7 @@ fetchMock.get(
 
     return {
       data: result,
-      total: data.length,
+      total: total,
       pageCount: Math.ceil(total / params.pageSize),
     };
   },
