@@ -9,7 +9,6 @@ const columns = [
 ];
 
 function App() {
-  const previousRequest = useRef({});
   const fetchIdRef = useRef(0);
   const [state, setState] = useState({
     data: [],
@@ -22,29 +21,20 @@ function App() {
     setState((state) => ({ ...state, filter: { q: values.q.trim() } }));
   };
 
-  const onFetchData = useCallback((params, previousParams) => {
+  const onFetchData = useCallback((params) => {
     const fetchId = ++fetchIdRef.current;
     setState((state) => ({ ...state, loading: true }));
-
-    console.log("[previous]", previousParams);
-    if (previousParams) {
-      if (params.q !== previousParams.filter.q) {
-        params.pageIndex = 0;
-      }
-    }
 
     fetch("http://example.com/users", { params })
       .then((res) => res.json())
       .then((result) => {
         // Only update the data if this is the latest fetch
         if (fetchId === fetchIdRef.current) {
-          previousRequest.current = params;
           setState((state) => ({
             ...state,
             loading: false,
             data: result.data,
             pageCount: result.pageCount,
-            pageIndex: params.pageIndex, // TODO
           }));
         }
       });

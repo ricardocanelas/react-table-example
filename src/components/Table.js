@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import usePaginationRange from "./usePagination";
+import usePaginationRange from "./usePaginationRange";
 import { useTable, useSortBy, usePagination } from "react-table";
 
 const Table = (props) => {
@@ -55,11 +55,27 @@ const Table = (props) => {
 
   // When these table states change, fetch new data!
   useEffect(() => {
-    if (!onFetchData) return;
-    const params = { sortBy, pageIndex, pageSize, filter };
-    onFetchData(params, previousParams.current);
+    let hasFilterChanged = false;
+
+    if (previousParams.current) {
+      hasFilterChanged = Object.keys(previousParams.current.filter).some(
+        (key) => {
+          return previousParams.current.filter[key] !== filter[key];
+        }
+      );
+    }
+
+    const params = { sortBy, pageIndex, pageSize, filter, hasFilterChanged };
+
+    if (hasFilterChanged && pageIndex !== 0) {
+      previousParams.current = params;
+      return gotoPage(0);
+    }
+
+    if (onFetchData) onFetchData(params, previousParams.current);
+
     previousParams.current = params;
-  }, [onFetchData, sortBy, pageIndex, pageSize, filter]);
+  }, [gotoPage, onFetchData, sortBy, pageIndex, pageSize, filter]);
 
   return (
     <>
@@ -69,7 +85,10 @@ const Table = (props) => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className={`col-${column.id}`}
+                >
                   {column.render("Header")}
                   <span>
                     {column.isSorted
@@ -93,7 +112,12 @@ const Table = (props) => {
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <td
+                        {...cell.getCellProps()}
+                        className={`col-${cell.column.id}`}
+                      >
+                        {cell.render("Cell")}
+                      </td>
                     );
                   })}
                 </tr>
