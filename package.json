@@ -1,7 +1,13 @@
 {
   "name": "react-table-example",
   "version": "0.1.0",
+  "homepage": "https://ricardocanelas.github.io/react-table-example",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ricardocanelas/react-table-example"
+  },
   "private": true,
+  "author": "Ricardo Canelas",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -20,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
   }
 }
