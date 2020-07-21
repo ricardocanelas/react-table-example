@@ -1,13 +1,19 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --bs-table-bg: #bbd6fe;
+  --bs-table-striped-bg: #b3cdf3;
+  --bs-table-striped-color: #212529;
+  --bs-table-active-bg: #acc4e9;
+  --bs-table-active-color: #212529;
+  --bs-table-hover-bg: #afc9ee;
+  --bs-table-hover-color: #212529;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@import "~bootstrap/dist/css/bootstrap.css";
+
+body {
+  padding: 32px 0;
 }
